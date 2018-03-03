@@ -3,6 +3,7 @@ package uby.luca.fragmentfun;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +18,9 @@ import java.util.Random;
  */
 
 public class SquareFragment extends Fragment {
+    int red=255;
+    int green=255;
+    int blue=255;
     public SquareFragment() {
     }
 
@@ -38,15 +42,23 @@ public class SquareFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_square, container, false);
         final TextView squareTv = v.findViewById(R.id.fragmentTv);
         squareTv.setText(getArguments().getString("CIAO"));
+
+        if (savedInstanceState!=null){
+            red=savedInstanceState.getInt("RED");
+            green=savedInstanceState.getInt("GREEN");
+            blue=savedInstanceState.getInt("BLUE");
+            squareTv.setBackgroundColor(Color.rgb(red, green, blue));
+        }
+
         squareTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Random rand = new Random();
 
 
-                int red=(rand.nextInt(255));
-                int green=(rand.nextInt(255));
-                int blue=(rand.nextInt(255));
+                red=(rand.nextInt(255));
+                green=(rand.nextInt(255));
+                blue=(rand.nextInt(255));
                 Color color = new Color();
 
                 color.red(red);
@@ -59,5 +71,13 @@ public class SquareFragment extends Fragment {
 
         return squareTv;
 
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("RED",red);
+        outState.putInt("GREEN",green);
+        outState.putInt("BLUE",blue);
     }
 }
