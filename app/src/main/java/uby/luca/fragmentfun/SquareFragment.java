@@ -69,7 +69,7 @@ public class SquareFragment extends Fragment {
             }
         });
 
-        return squareTv;
+        return v;
 
     }
 

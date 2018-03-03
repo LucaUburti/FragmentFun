@@ -4,13 +4,21 @@ import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
-
 public class MainActivity extends AppCompatActivity implements SquareFragment.SquareOnClick {
+
+    String results="";
 
     @Override
     public void onColorChanged(String color) {
         Snackbar.make(findViewById(R.id.main_layout), "Color: " + color, Snackbar.LENGTH_LONG).show();
+        ResultFragment rf = new ResultFragment();
+        Bundle b = new Bundle();
+        results=color+"\n"+results;
+        b.putString("RESULTS", results);
+        rf.setArguments(b);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.row3col2, rf).commit();
+
     }
 
     @Override
@@ -48,9 +56,9 @@ public class MainActivity extends AppCompatActivity implements SquareFragment.Sq
             b22.putString("CIAO", "row2 col2");
             row2col2.setArguments(b22);
 
-            SquareFragment row3col2 = new SquareFragment();
+            ResultFragment row3col2 = new ResultFragment();
             Bundle b32 = new Bundle();
-            b32.putString("CIAO", "row3 col2");
+            b32.putString("RESULTS", "Results will appear here");
             row3col2.setArguments(b32);
 
             getSupportFragmentManager().beginTransaction()
@@ -61,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements SquareFragment.Sq
                     .add(R.id.row2col2, row2col2)
                     .add(R.id.row3col2, row3col2)
                     .commit();
-
         }
     }
 
