@@ -1,5 +1,7 @@
 package uby.luca.fragmentfun;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.Random;
 
 /**
  * Created by uburti on 03/03/2018.
@@ -16,12 +20,42 @@ public class SquareFragment extends Fragment {
     public SquareFragment() {
     }
 
+    private SquareOnClick soc;
+
+    interface SquareOnClick {
+        void onColorChanged(String color);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        soc = (SquareOnClick) context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_square,container,false);
-        TextView squareTv=v.findViewById(R.id.fragmentTv);
+        View v = inflater.inflate(R.layout.fragment_square, container, false);
+        final TextView squareTv = v.findViewById(R.id.fragmentTv);
         squareTv.setText(getArguments().getString("CIAO"));
+        squareTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Random rand = new Random();
+
+
+                int red=(rand.nextInt(255));
+                int green=(rand.nextInt(255));
+                int blue=(rand.nextInt(255));
+                Color color = new Color();
+
+                color.red(red);
+                color.green(green);
+                color.blue(blue);
+                soc.onColorChanged("red: "+red+" green: "+green+" blue: "+blue);
+                squareTv.setBackgroundColor(Color.rgb(red, green, blue));
+            }
+        });
 
         return squareTv;
 
